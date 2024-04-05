@@ -1,0 +1,11 @@
+server:
+  port: 8081
+
+spring:
+  config:
+    import:
+      - security/application-cors.yml
+      - security/application-database.yml
+      - security/application-server.yml
+    activate:
+      on-profile: local
