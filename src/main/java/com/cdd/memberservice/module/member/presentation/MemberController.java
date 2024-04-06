@@ -36,8 +36,12 @@ public class MemberController {
 	}
 
 	@PatchMapping("/v1/profile")
-	public ResponseEntity<MessageBody<ProfileResponse>> updateMemberInfo(@RequestBody ProfileInfoRequest request) {
-		return ResponseEntityFactory.ok("회원 정보 수정 성공", memberService.updateMemberInfo(request));
+	public ResponseEntity<MessageBody<ProfileResponse>> updateMemberInfo(
+		@RequestPassport Passport passport,
+		@RequestBody ProfileInfoRequest request
+	) {
+		return ResponseEntityFactory.ok("회원 정보 수정 성공",
+			memberService.updateMemberInfo(passport, request));
 	}
 
 	@PatchMapping("/v1/profile/image")
