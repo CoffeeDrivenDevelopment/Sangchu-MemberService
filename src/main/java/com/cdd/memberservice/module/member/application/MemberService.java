@@ -20,6 +20,7 @@ import com.cdd.memberservice.module.member.dto.response.SigninResponse;
 import com.cdd.memberservice.module.member.exception.MemberErrorCode;
 import com.cdd.memberservice.module.member.exception.MemberException;
 import com.cdd.memberservice.module.member.utils.MemberServiceUtils;
+import com.cdd.sangchupassport.Passport;
 
 import lombok.RequiredArgsConstructor;
 
@@ -56,8 +57,11 @@ public class MemberService implements MemberLoadService {
 	}
 
 	@Transactional
-	public ProfileResponse updateMemberInfo(ProfileInfoRequest request) {
-		Member member = memberRepository.findById(request.memberId())
+	public ProfileResponse updateMemberInfo(
+		final Passport passport,
+		final ProfileInfoRequest request
+	) {
+		Member member = memberRepository.findById((long)passport.getMemberId())
 			.orElseThrow(() -> new MemberException(MemberErrorCode.NO_SUCH_ELEMENT));
 		member.updateMemberInfo(request);
 		memberRepository.save(member);
