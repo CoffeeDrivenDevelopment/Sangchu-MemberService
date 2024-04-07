@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cdd.memberservice.module.member.application.MemberLoadService;
+import com.cdd.memberservice.module.member.dto.request.MemberCoordinateResponse;
 import com.cdd.memberservice.module.member.dto.response.MemberInfoResponse;
 import com.cdd.sangchupassport.Passport;
 import com.cdd.sangchupassport.support.RequestPassport;
@@ -25,6 +26,14 @@ public class MemberClientController {
 		@PathVariable("member_id") int memberId
 	) {
 		MemberInfoResponse response = memberLoadService.findMemberInfo(memberId);
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/v1/members/coordinate")
+	public ResponseEntity<MemberCoordinateResponse> findMemberCoordinate(
+		@RequestPassport Passport passport
+	) {
+		MemberCoordinateResponse response = memberLoadService.findMemberCoordinate(passport);
 		return ResponseEntity.ok(response);
 	}
 }
