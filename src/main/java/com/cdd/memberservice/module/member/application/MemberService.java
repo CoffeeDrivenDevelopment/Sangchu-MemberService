@@ -10,6 +10,7 @@ import com.cdd.memberservice.module.member.domain.Member;
 import com.cdd.memberservice.module.member.domain.MemberRepository;
 import com.cdd.memberservice.module.member.domain.MemberStats;
 import com.cdd.memberservice.module.member.domain.MemberStatsRepository;
+import com.cdd.memberservice.module.member.dto.request.MemberCoordinateResponse;
 import com.cdd.memberservice.module.member.dto.request.ProfileImageRequest;
 import com.cdd.memberservice.module.member.dto.request.ProfileInfoRequest;
 import com.cdd.memberservice.module.member.dto.request.SigninRequest;
@@ -91,9 +92,16 @@ public class MemberService implements MemberLoadService {
 
 	@Override
 	public MemberInfoResponse findMemberInfo(final int memberId) {
-		Member findMember = MemberServiceUtils.findById(memberRepository, (long)memberId)
-			.orElseThrow(() -> new MemberException(MemberErrorCode.NO_SUCH_ELEMENT));
+		Member findMember = MemberServiceUtils.findById(memberRepository, (long)memberId);
 
 		return MemberInfoResponse.from(findMember);
+	}
+
+	@Override
+	public MemberCoordinateResponse findMemberCoordinate(final Passport passport) {
+		int memberId = passport.getMemberId();
+		Member findMember = MemberServiceUtils.findById(memberRepository, (long)memberId);
+
+		return MemberCoordinateResponse.from(findMember);
 	}
 }
