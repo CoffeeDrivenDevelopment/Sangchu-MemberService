@@ -22,8 +22,6 @@ import com.cdd.memberservice.module.follow.vo.Following;
 import com.cdd.memberservice.module.member.domain.MemberRepository;
 import com.cdd.memberservice.module.member.domain.MemberStats;
 import com.cdd.memberservice.module.member.domain.MemberStatsRepository;
-import com.cdd.memberservice.module.member.exception.MemberErrorCode;
-import com.cdd.memberservice.module.member.exception.MemberException;
 import com.cdd.memberservice.module.member.utils.MemberServiceUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -42,10 +40,8 @@ public class FollowService {
 			throw new FollowException(FollowErrorCode.BAD_REQUEST);
 		}
 		followRepository.save(Follow.builder()
-			.follower(MemberServiceUtils.findById(memberRepository, request.followerId())
-				.orElseThrow(() -> new MemberException(MemberErrorCode.NO_SUCH_ELEMENT)))
-			.following(MemberServiceUtils.findById(memberRepository, request.followingId())
-				.orElseThrow(() -> new MemberException((MemberErrorCode.NO_SUCH_ELEMENT))))
+			.follower(MemberServiceUtils.findById(memberRepository, request.followerId()))
+			.following(MemberServiceUtils.findById(memberRepository, request.followingId()))
 			.build());
 		MemberStats followerStats = memberStatsRepository.findById(request.followerId())
 			.orElseThrow(() -> new FollowException(FollowErrorCode.NO_SUCH_ELEMENT));

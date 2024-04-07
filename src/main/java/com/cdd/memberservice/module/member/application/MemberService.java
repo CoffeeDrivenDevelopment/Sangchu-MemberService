@@ -92,14 +92,16 @@ public class MemberService implements MemberLoadService {
 
 	@Override
 	public MemberInfoResponse findMemberInfo(final int memberId) {
-		Member findMember = MemberServiceUtils.findById(memberRepository, (long)memberId)
-			.orElseThrow(() -> new MemberException(MemberErrorCode.NO_SUCH_ELEMENT));
+		Member findMember = MemberServiceUtils.findById(memberRepository, (long)memberId);
 
 		return MemberInfoResponse.from(findMember);
 	}
 
 	@Override
-	public MemberCoordinateResponse findMemberCoordinate(Passport passport) {
-		return null;
+	public MemberCoordinateResponse findMemberCoordinate(final Passport passport) {
+		int memberId = passport.getMemberId();
+		Member findMember = MemberServiceUtils.findById(memberRepository, (long)memberId);
+
+		return MemberCoordinateResponse.from(findMember);
 	}
 }
